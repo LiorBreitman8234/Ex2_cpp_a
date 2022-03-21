@@ -14,12 +14,12 @@ namespace ariel
     class Page
     {
         unsigned int id;
-        std::vector<std::map<unsigned int, char>> columns;
-        std::vector<std::map<unsigned int,char>>& columnsRef;
+        std::map<std::pair<unsigned int,unsigned int>,char> tiles;
+        std::map<std::pair<unsigned int,unsigned int>,char>& tilesRef;
 
     public:
         explicit Page(unsigned int id)
-        : columns(std::vector<std::map<unsigned int, char>>(100)),columnsRef(columns)
+        : tiles(std::map<std::pair<unsigned int,unsigned int>,char>()),tilesRef(tiles)
         {
             std::cout<< "constructed page: " << id <<std::endl;
             this->id = id;

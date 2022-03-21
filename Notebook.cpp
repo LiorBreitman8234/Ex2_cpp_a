@@ -91,6 +91,42 @@ namespace ariel
         }
         return toRet;
     }
+    void Notebook::erase(unsigned int page, unsigned int row, unsigned int column, Direction direction, int length) {
+        if(pagesRef.empty() || pagesRef.find(page) == pagesRef.end())
+        {
+            Page toAdd = Page(page);
+            if(direction == Direction::Vertical)
+            {
+                for(unsigned int i =0; i < length;i++)
+                {
+                    toAdd.writeToPage(row +i, column, '~');
+                }
+            }
+            else
+            {
+                for(unsigned int i =0; i < length;i++)
+                {
+                    toAdd.writeToPage(row, column +i, '~');
+                }
+            }
+            pagesRef.insert({page,toAdd});
+        }
+        else
+        {
+            Page& removeFrom = pagesRef.at(page);
+            for(unsigned int i =0; i < length;i++)
+            {
+                if(direction == Direction::Vertical)
+                {
+                    removeFrom.writeToPage(row+i,column,'~');
+                }
+                else
+                {
+                    removeFrom.writeToPage(row, column +i, '~');
+                }
+            }
+        }
+    }
 }
 
 

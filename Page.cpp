@@ -5,24 +5,20 @@
 namespace ariel
 {
     void Page::writeToPage(unsigned int row,unsigned int column, char toWrite) {
-        std::map<unsigned int,char>::iterator it;
-        it = this->columnsRef.at(column).find(row);
-        if(it == this->columnsRef.at(column).end())
+        if(this->tiles.find({row,column}) == this->tiles.end())
         {
-            this->columnsRef.at(column).insert({row,toWrite});
+            this->tiles.insert({{row,column},toWrite});
         }
         else
         {
-            it->second = '~';
+            this->tiles.at({row,column}) =   '~';
         }
     }
     char Page::readFromPage(unsigned int row,unsigned int column) {
-        std::map<unsigned int,char>::iterator it;
-        it = this->columnsRef.at(column).find(row);
-        if(it == this->columnsRef.at(column).end())
+        if(this->tiles.find({row,column}) == this->tiles.end())
         {
             return '_';
         }
-        return it->second;
+        return this->tiles.at({row,column});
     }
 }
