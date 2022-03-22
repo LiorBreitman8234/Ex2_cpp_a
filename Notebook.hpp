@@ -13,7 +13,7 @@
 #include "Page.hpp"
 #include "Direction.hpp"
 
-
+#define ROW_LENGTH 100
 namespace ariel
 {
     class Notebook

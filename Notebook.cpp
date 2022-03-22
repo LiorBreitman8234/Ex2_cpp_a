@@ -7,11 +7,7 @@ namespace ariel
 {
     bool Notebook::checkIndex(unsigned int row, unsigned long length, Direction direction)
     {
-        if(row > 99 || (direction == Direction::Horizontal && length + row > 99))
-        {
-            return false;
-        }
-        return true;
+        return !(row >= ROW_LENGTH || (direction == Direction::Horizontal && length + row >= ROW_LENGTH));
     }
     void Notebook::write(unsigned int page,unsigned int row,unsigned int column, Direction direction, std::string toWrite)
     {
