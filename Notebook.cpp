@@ -22,7 +22,7 @@ namespace ariel
         if(pagesRef.find(page) != pagesRef.end())
         {
             //getting the page to write to
-            Page current = pagesRef.at(page);
+            Page& current = pagesRef.at(page);
             std::string toCheck;
             for(unsigned long i =0; i < toWrite.size();i++)
             {
@@ -67,7 +67,7 @@ namespace ariel
         }
     }
     std::string Notebook::read(unsigned int page,unsigned int row,unsigned int column, Direction direction, int length) {
-        if(!checkIndex(row,length,direction))
+        if(!checkIndex(row,(unsigned long)length,direction))
         {
             throw std::out_of_range("trying to read columns over 100");
         }
@@ -83,17 +83,17 @@ namespace ariel
         {
             if(direction == Direction::Vertical)
             {
-                readFrom.readFromPage(row+i,column);
+                toRet.push_back(readFrom.readFromPage(row+i,column));
             }
             else
             {
-                readFrom.readFromPage(row, column + i);
+                toRet.push_back(readFrom.readFromPage(row, column + i));
             }
         }
         return toRet;
     }
     void Notebook::erase(unsigned int page, unsigned int row, unsigned int column, Direction direction, int length) {
-        if(!checkIndex(row,length,direction))
+        if(!checkIndex(row,(unsigned long) length,direction))
         {
             throw std::out_of_range("trying to erase columns over 100");
         }

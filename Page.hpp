@@ -20,7 +20,6 @@ namespace ariel
         explicit Page(unsigned int id)
         : tiles(std::map<std::pair<unsigned int,unsigned int>,char>())
         {
-            std::cout<< "constructed page: " << id <<std::endl;
             this->id = id;
         };
         /**

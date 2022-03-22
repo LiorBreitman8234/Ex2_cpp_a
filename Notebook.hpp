@@ -12,6 +12,8 @@
 #include <stdexcept>
 #include "Page.hpp"
 #include "Direction.hpp"
+
+
 namespace ariel
 {
     class Notebook
