@@ -15,11 +15,10 @@ namespace ariel
     {
         unsigned int id;
         std::map<std::pair<unsigned int,unsigned int>,char> tiles;
-        std::map<std::pair<unsigned int,unsigned int>,char>& tilesRef;
 
     public:
         explicit Page(unsigned int id)
-        : tiles(std::map<std::pair<unsigned int,unsigned int>,char>()),tilesRef(tiles)
+        : tiles(std::map<std::pair<unsigned int,unsigned int>,char>())
         {
             std::cout<< "constructed page: " << id <<std::endl;
             this->id = id;

@@ -18,7 +18,7 @@ namespace ariel
     {
         std::map<unsigned int, Page> pages;
         std::map<unsigned int,Page>& pagesRef;
-
+        static bool checkIndex(unsigned int row, unsigned long length, Direction direction);
     public:
         Notebook()
         : pages(std::map<unsigned int,Page>()), pagesRef(pages){};
