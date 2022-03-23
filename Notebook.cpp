@@ -5,6 +5,23 @@
 #include "Notebook.hpp"
 namespace ariel
 {
+    void Page::writeToPage( int row, int column, char toWrite) {
+        if(this->tiles.find({row,column}) == this->tiles.end())
+        {
+            this->tiles.insert({{row,column},toWrite});
+        }
+        else
+        {
+            this->tiles.at({row,column}) =   '~';
+        }
+    }
+    char Page::readFromPage( int row, int column) {
+        if(this->tiles.find({row,column}) == this->tiles.end())
+        {
+            return '_';
+        }
+        return this->tiles.at({row,column});
+    }
     int Notebook::checkInputWrite(int page,int row,int column,const std::string& toWrite, Direction direction){
         if(row <0 || column <0 || page <0)
         {
@@ -92,6 +109,9 @@ namespace ariel
 
 
         }
+    }
+    void Notebook::show(int num) {
+        num = 5;
     }
     std::string Notebook::read( int page, int row, int column, Direction direction, int length) {
         switch (checkInputReadAndErase(page,row,column,length, direction)) {

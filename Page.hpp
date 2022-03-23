@@ -11,31 +11,31 @@
 #include <vector>
 namespace ariel
 {
-    class Page
-    {
-        int id;
-        std::map<std::pair< int, int>,char> tiles;
-
-    public:
-        explicit Page( int id)
-        : tiles(std::map<std::pair< int, int>,char>())
-        {
-            this->id = id;
-        };
-        /**
-         *
-         * @param row the row number(key in our map)
-         * @param column column number(index in the vector)
-         * @param toWrite the char to write
-         */
-        void writeToPage( int row, int column, char toWrite);
-        /**
-         *
-         * @param row row number to read from
-         * @param column column number to read from
-         * @return
-         */
-        char readFromPage( int row, int column);
-    };
+//    class Page
+//    {
+//        int id;
+//        std::map<std::pair< int, int>,char> tiles;
+//
+//    public:
+//        explicit Page( int id)
+//        : tiles(std::map<std::pair< int, int>,char>())
+//        {
+//            this->id = id;
+//        };
+//        /**
+//         *
+//         * @param row the row number(key in our map)
+//         * @param column column number(index in the vector)
+//         * @param toWrite the char to write
+//         */
+//        void writeToPage( int row, int column, char toWrite);
+//        /**
+//         *
+//         * @param row row number to read from
+//         * @param column column number to read from
+//         * @return
+//         */
+//        char readFromPage( int row, int column);
+//    };
 }
 #endif //EX2_CPP_QA_PAGE_HPP

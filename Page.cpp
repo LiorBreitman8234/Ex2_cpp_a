@@ -4,21 +4,21 @@
 #include "Page.hpp"
 namespace ariel
 {
-    void Page::writeToPage( int row, int column, char toWrite) {
-        if(this->tiles.find({row,column}) == this->tiles.end())
-        {
-            this->tiles.insert({{row,column},toWrite});
-        }
-        else
-        {
-            this->tiles.at({row,column}) =   '~';
-        }
-    }
-    char Page::readFromPage( int row, int column) {
-        if(this->tiles.find({row,column}) == this->tiles.end())
-        {
-            return '_';
-        }
-        return this->tiles.at({row,column});
-    }
+//    void Page::writeToPage( int row, int column, char toWrite) {
+//        if(this->tiles.find({row,column}) == this->tiles.end())
+//        {
+//            this->tiles.insert({{row,column},toWrite});
+//        }
+//        else
+//        {
+//            this->tiles.at({row,column}) =   '~';
+//        }
+//    }
+//    char Page::readFromPage( int row, int column) {
+//        if(this->tiles.find({row,column}) == this->tiles.end())
+//        {
+//            return '_';
+//        }
+//        return this->tiles.at({row,column});
+//    }
 }
