@@ -111,7 +111,7 @@ namespace ariel
         }
     }
     void Notebook::show(int num) {
-        num = 5;
+        
     }
     std::string Notebook::read( int page, int row, int column, Direction direction, int length) {
         switch (checkInputReadAndErase(page,row,column,length, direction)) {
