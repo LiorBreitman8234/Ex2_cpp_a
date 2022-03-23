@@ -47,23 +47,40 @@ TEST_CASE("Trying to access index over 100")
 {
     ariel::Notebook notebook;
     //write over 100
-    CHECK_THROWS(notebook.write(0,100,0,ariel::Direction::Horizontal,"a"));
-    CHECK_THROWS_MESSAGE(notebook.write(0,100,0,ariel::Direction::Horizontal,"a"),"trying to write to columns over 100");
+    CHECK_THROWS(notebook.write(0,0,100,ariel::Direction::Horizontal,"a"));
+    CHECK_THROWS_MESSAGE(notebook.write(0,0,100,ariel::Direction::Horizontal,"a"),"trying to write to columns over 100");
     //writing starts under 100 but goes over it
-    CHECK_THROWS(notebook.write(0,95,0,ariel::Direction::Horizontal,"aaaaaaaaaa"));
-    CHECK_THROWS_MESSAGE(notebook.write(0,95,0,ariel::Direction::Horizontal,"aaaaaaaaaa"),"trying to write to columns over 100");
+    CHECK_THROWS(notebook.write(0,0,95,ariel::Direction::Horizontal,"aaaaaaaaaa"));
+    CHECK_THROWS_MESSAGE(notebook.write(0,0,95,ariel::Direction::Horizontal,"aaaaaaaaaa"),"trying to write to columns over 100");
     //read over 100
-    CHECK_THROWS(notebook.read(0,100,0,ariel::Direction::Horizontal,1));
-    CHECK_THROWS_MESSAGE(notebook.read(0,100,0,ariel::Direction::Horizontal,1),"trying to read columns over 100");
+    CHECK_THROWS(notebook.read(0,0,100,ariel::Direction::Horizontal,1));
+    CHECK_THROWS_MESSAGE(notebook.read(0,0,100,ariel::Direction::Horizontal,1),"trying to read columns over 100");
     //starting before 100 but getting over it
-    CHECK_THROWS(notebook.read(0,60,0,ariel::Direction::Horizontal,50));
-    CHECK_THROWS_MESSAGE(notebook.read(0,60,0,ariel::Direction::Horizontal,50),"trying to read columns over 100");
+    CHECK_THROWS(notebook.read(0,0,60,ariel::Direction::Horizontal,50));
+    CHECK_THROWS_MESSAGE(notebook.read(0,0,60,ariel::Direction::Horizontal,50),"trying to read columns over 100");
     //erase over 100
-    CHECK_THROWS(notebook.erase(0,100,0,ariel::Direction::Horizontal,1));
-    CHECK_THROWS_MESSAGE(notebook.read(0,100,0,ariel::Direction::Horizontal,1),"trying to erase columns over 100");
+    CHECK_THROWS(notebook.erase(0,0,100,ariel::Direction::Horizontal,1));
+    CHECK_THROWS_MESSAGE(notebook.read(0,0,100,ariel::Direction::Horizontal,1),"trying to erase columns over 100");
     //erase starts under 100 but goes over
-    CHECK_THROWS(notebook.erase(0,60,0,ariel::Direction::Horizontal,50));
-    CHECK_THROWS_MESSAGE(notebook.erase(0,60,0,ariel::Direction::Horizontal,50),"trying to erase columns over 100");
+    CHECK_THROWS(notebook.erase(0,0,60,ariel::Direction::Horizontal,50));
+    CHECK_THROWS_MESSAGE(notebook.erase(0,0,60,ariel::Direction::Horizontal,50),"trying to erase columns over 100");
 
+
+}
+
+TEST_CASE("bad input, negative numbers")
+{
+    ariel::Notebook notebook;
+    CHECK_THROWS(notebook.write(-1,0,0,ariel::Direction::Horizontal,"abc"));
+    CHECK_THROWS(notebook.read(-1,0,0,ariel::Direction::Horizontal,3));
+    CHECK_THROWS(notebook.erase(-1,0,0,ariel::Direction::Horizontal,3));
+    CHECK_THROWS(notebook.write(0,-1,0,ariel::Direction::Horizontal,"abc"));
+    CHECK_THROWS(notebook.read(0,-1,0,ariel::Direction::Horizontal,3));
+    CHECK_THROWS(notebook.erase(0,-1,0,ariel::Direction::Horizontal,3));
+    CHECK_THROWS(notebook.write(0,0,-1,ariel::Direction::Horizontal,"abc"));
+    CHECK_THROWS(notebook.read(0,0,-1,ariel::Direction::Horizontal,3));
+    CHECK_THROWS(notebook.erase(0,0,-1,ariel::Direction::Horizontal,3));
+    CHECK_THROWS(notebook.read(0,0,0,ariel::Direction::Horizontal,-1));
+    CHECK_THROWS(notebook.erase(0,0,0,ariel::Direction::Horizontal,-1));
 
 }
