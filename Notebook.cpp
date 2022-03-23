@@ -5,22 +5,53 @@
 #include "Notebook.hpp"
 namespace ariel
 {
-    bool Notebook::checkIndex(unsigned int row, unsigned long length, Direction direction)
-    {
-        return !(row >= ROW_LENGTH || (direction == Direction::Horizontal && length + row >= ROW_LENGTH));
-    }
-    void Notebook::write(unsigned int page,unsigned int row,unsigned int column, Direction direction, std::string toWrite)
-    {
-        if(!checkIndex(row,toWrite.size(),direction))
+    int Notebook::checkInputWrite(int page,int row,int column,const std::string& toWrite, Direction direction){
+        if(row <0 || column <0 || page <0)
         {
-            throw std::out_of_range("trying to write to columns over 100");
+            return 1;
+        }
+        if(column >= ROW_LENGTH || (direction == Direction::Horizontal && (unsigned long) column + toWrite.size() >= ROW_LENGTH))
+        {
+            return 2;
+        }
+        for(char i : toWrite)
+        {
+            if(i > CHAR_UP_LIMIT ||i < CHAR_LOW_LIMIT)
+            {
+                return 3;
+            }
+        }
+        return 0;
+    }
+    int Notebook::checkInputReadAndErase(int page, int row, int column, int length, Direction direction) {
+        if(row <0 || column <0 || page <0 || length < 0)
+        {
+            return 1;
+        }
+        if(column >= ROW_LENGTH || (direction == Direction::Horizontal && column + length >= ROW_LENGTH))
+        {
+            return 2;
+        }
+        return 0;
+    }
+    void Notebook::write( int page, int row, int column, Direction direction, std::string toWrite)
+    {
+        switch (checkInputWrite(page, row, column, toWrite, direction)) {
+            case 1:
+                throw std::invalid_argument("page, row and col numbers must be >=0");
+            case 2:
+                throw std::out_of_range("trying to write to columns over 100");
+            case 3:
+                throw std::invalid_argument("trying to write illegal char");
+            case 0:
+                break;
         }
         if(pagesRef.find(page) != pagesRef.end())
         {
             //getting the page to write to
             Page& current = pagesRef.at(page);
             std::string toCheck;
-            for(unsigned long i =0; i < toWrite.size();i++)
+            for( long i =0; i < toWrite.size();i++)
             {
                 toCheck.push_back('_');
             }
@@ -29,15 +60,15 @@ namespace ariel
             {
                 throw std::invalid_argument("trying to write on an occupied space");
             }
-            for(unsigned long i =0; i < toWrite.size();i++)
+            for(int i =0; i < toWrite.size();i++)
             {
                 if(direction == Direction::Vertical)
                 {
-                    current.writeToPage(row +i, column,toWrite.at(i));
+                    current.writeToPage(row +i, column,toWrite.at((unsigned long) i));
                 }
                 else
                 {
-                    current.writeToPage(row,column+i,toWrite.at(i));
+                    current.writeToPage(row,column+i,toWrite.at((unsigned long)i));
                 }
             }
         }
@@ -46,15 +77,15 @@ namespace ariel
             //creating a new page and adding it to our map
             Page toAdd = Page(page);
             // no need to check if the place is clear since this is a new page
-            for(unsigned long i =0; i < toWrite.length();i++)
+            for(int i =0; i < toWrite.length();i++)
             {
                 if(direction == Direction::Vertical)
                 {
-                    toAdd.writeToPage(row +i, column,toWrite.at(i));
+                    toAdd.writeToPage(row +i, column,toWrite.at((unsigned long) i));
                 }
                 else
                 {
-                    toAdd.writeToPage(row,column+i,toWrite.at(i));
+                    toAdd.writeToPage(row,column+i,toWrite.at((unsigned long)i));
                 }
             }
             pagesRef.insert({page, toAdd});
@@ -62,10 +93,14 @@ namespace ariel
 
         }
     }
-    std::string Notebook::read(unsigned int page,unsigned int row,unsigned int column, Direction direction, int length) {
-        if(!checkIndex(row,(unsigned long)length,direction))
-        {
-            throw std::out_of_range("trying to read columns over 100");
+    std::string Notebook::read( int page, int row, int column, Direction direction, int length) {
+        switch (checkInputReadAndErase(page,row,column,length, direction)) {
+            case 1:
+                throw std::invalid_argument("page, row and col numbers must be >=0");
+            case 2:
+                throw std::out_of_range("trying to read columns over 100");
+            case 0:
+                break;
         }
         std::string toRet;
         if(pagesRef.find(page) == pagesRef.end())
@@ -75,7 +110,7 @@ namespace ariel
             return toRet;
         }
         Page& readFrom = pagesRef.at(page);
-        for(unsigned int i =0; i < length;i++)
+        for( int i =0; i < length;i++)
         {
             if(direction == Direction::Vertical)
             {
@@ -88,15 +123,19 @@ namespace ariel
         }
         return toRet;
     }
-    void Notebook::erase(unsigned int page, unsigned int row, unsigned int column, Direction direction, int length) {
-        if(!checkIndex(row,(unsigned long) length,direction))
-        {
-            throw std::out_of_range("trying to erase columns over 100");
+    void Notebook::erase( int page,  int row,  int column, Direction direction, int length) {
+        switch (checkInputReadAndErase(page,row,column,length, direction)) {
+            case 1:
+                throw std::invalid_argument("page, row and col numbers must be >=0");
+            case 2:
+                throw std::out_of_range("trying to erase columns over 100");
+            case 0:
+                break;
         }
         if(pagesRef.empty() || pagesRef.find(page) == pagesRef.end())
         {
             Page toAdd = Page(page);
-            for(unsigned int i =0; i < length;i++)
+            for( int i =0; i < length;i++)
             {
                 if(direction == Direction::Vertical)
                 {
@@ -112,7 +151,7 @@ namespace ariel
         else
         {
             Page& removeFrom = pagesRef.at(page);
-            for(unsigned int i =0; i < length;i++)
+            for( int i =0; i < length;i++)
             {
                 if(direction == Direction::Vertical)
                 {

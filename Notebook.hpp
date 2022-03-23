@@ -14,19 +14,22 @@
 #include "Direction.hpp"
 
 #define ROW_LENGTH 100
+#define CHAR_UP_LIMIT 126
+#define CHAR_LOW_LIMIT 33
 namespace ariel
 {
     class Notebook
     {
-        std::map<unsigned int, Page> pages;
-        std::map<unsigned int,Page>& pagesRef;
-        static bool checkIndex(unsigned int row, unsigned long length, Direction direction);
+        std::map< int, Page> pages;
+        std::map< int,Page>& pagesRef;
+        static int checkInputWrite(int page, int row,int column,const std::string& toWrite, Direction direction);
+        static int checkInputReadAndErase(int page, int row, int column, int length, Direction direction);
     public:
         Notebook()
-        : pages(std::map<unsigned int,Page>()), pagesRef(pages){};
-        void write(unsigned int page,unsigned int row, unsigned int column, Direction direction, std::string toWrite);
-        std::string read(unsigned int page, unsigned int row,unsigned int column, Direction direction, int length);
-        void erase(unsigned int page,unsigned int row,unsigned int column, Direction direction,int length);
+        : pages(std::map< int,Page>()), pagesRef(pages){};
+        void write( int page, int row,  int column, Direction direction, std::string toWrite);
+        std::string read( int page,  int row, int column, Direction direction, int length);
+        void erase( int page, int row, int column, Direction direction,int length);
         void show(int num);
     };
 }

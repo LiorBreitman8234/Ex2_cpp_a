@@ -13,12 +13,12 @@ namespace ariel
 {
     class Page
     {
-        unsigned int id;
-        std::map<std::pair<unsigned int,unsigned int>,char> tiles;
+        int id;
+        std::map<std::pair< int, int>,char> tiles;
 
     public:
-        explicit Page(unsigned int id)
-        : tiles(std::map<std::pair<unsigned int,unsigned int>,char>())
+        explicit Page( int id)
+        : tiles(std::map<std::pair< int, int>,char>())
         {
             this->id = id;
         };
@@ -28,14 +28,14 @@ namespace ariel
          * @param column column number(index in the vector)
          * @param toWrite the char to write
          */
-        void writeToPage(unsigned int row,unsigned int column, char toWrite);
+        void writeToPage( int row, int column, char toWrite);
         /**
          *
          * @param row row number to read from
          * @param column column number to read from
          * @return
          */
-        char readFromPage(unsigned int row,unsigned int column);
+        char readFromPage( int row, int column);
     };
 }
 #endif //EX2_CPP_QA_PAGE_HPP

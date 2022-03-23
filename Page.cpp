@@ -4,7 +4,7 @@
 #include "Page.hpp"
 namespace ariel
 {
-    void Page::writeToPage(unsigned int row,unsigned int column, char toWrite) {
+    void Page::writeToPage( int row, int column, char toWrite) {
         if(this->tiles.find({row,column}) == this->tiles.end())
         {
             this->tiles.insert({{row,column},toWrite});
@@ -14,7 +14,7 @@ namespace ariel
             this->tiles.at({row,column}) =   '~';
         }
     }
-    char Page::readFromPage(unsigned int row,unsigned int column) {
+    char Page::readFromPage( int row, int column) {
         if(this->tiles.find({row,column}) == this->tiles.end())
         {
             return '_';
